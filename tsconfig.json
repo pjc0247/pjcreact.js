@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "outDir": "dist",
+    "module": "AMD",
+    "outFile": "www/react.js"
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/test.ts"
+  ]
+}

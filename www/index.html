@@ -1,0 +1,72 @@
+<html>
+  <body>
+    <div>
+      <h1>React.js clone coding</h1>
+    </div>
+    <div id="root">
+    </div>
+    
+    <hr />
+    
+    <iframe src="code.html" frameBorder="0"></iframe>
+  </body>
+</html>
+<style>
+  iframe {
+    width: 550px;
+    height: 550px;
+  }
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script src="./react.js"></script>
+<script>
+require([
+  'render/render',
+  'render/factory',
+  'compiler/simple',
+  'hook/hook',
+], (
+  { default: render },
+  { element },
+  { default: rsx, registerType },
+  { useState, useEffect },
+) => {
+
+  const HelloWorldElement = (props) => {
+    return "Hello World " + props.value;
+  };
+  const Root = (props) => {
+    const [v, setV] = useState(0);
+    const [name, setName] = useState('');
+
+    useEffect(() => {
+      for (let i=0;i<5;i++)
+        setTimeout(() => { setV(i); }, 1000 * i);
+    }, []);
+
+    //return () => Comp({ v });
+    return element(
+      'div',
+      {},
+      element(
+        'input',
+        {
+          onChange: (e) => setName(e.target.value),
+          placeholder: 'Type something and press enter',
+        }
+      ),
+      () => HelloWorldElement({ value: name }),
+
+      '  /  useStateTest',
+      () => `${v}`,
+    );
+  };
+  registerType(Root);
+
+  const appRoot = document.getElementById('root');
+  const domRoot = render(rsx(`<Root v="4" Q="5" />`));
+  appRoot.appendChild(domRoot);
+});
+</script>

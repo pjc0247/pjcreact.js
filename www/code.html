@@ -1,0 +1,51 @@
+<html>
+  <body>
+    <div id="editor">const HelloWorldElement = (props) => {
+  return "Hello World " + props.value;
+};
+const Root = (props) => {
+  const [v, setV] = useState(0);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    for (let i=0;i<5;i++)
+      setTimeout(() => { setV(i); }, 1000 * i);
+  }, []);
+
+  //return () => Comp({ v });
+  return element(
+    'div',
+    {},
+    element(
+      'input',
+      {
+        onChange: (e) => setName(e.target.value),
+        placeholder: 'Type something and press enter',
+      }
+    ),
+    () => HelloWorldElement({ value: name }),
+
+    '  /  useStateTest',
+    () => `${v}`,
+  );
+};
+registerType(Root);
+
+const appRoot = document.getElementById('root');
+const domRoot = render(rsx(`&lt;Root v="4" Q="5" /&gt;`));
+appRoot.appendChild(domRoot);</div>
+  </body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.min.js"></script>
+<script>
+var editor = ace.edit("editor");
+ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/')
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/javascript");
+</script>
+<style>
+#editor {
+  width: 500px;
+  height: 500px;
+}
+</style>
