@@ -123,8 +123,18 @@ define("render/vdom", ["require", "exports"], function (require, exports) {
                 // @ts-ignore
                 el[key] = _this.props[key];
             });
-            // special keys
+            this.applyEvents(el);
+            this.applyStyles(el);
+        };
+        VDom.prototype.applyEvents = function (el) {
             el.onchange = this.props.onChange;
+        };
+        VDom.prototype.applyStyles = function (el) {
+            if (!this.props.styles)
+                return;
+            for (var key in this.props.styles) {
+                el.style[key] = this.props.styles[key];
+            }
         };
         return VDom;
     }());
@@ -134,11 +144,6 @@ define("render/vdom", ["require", "exports"], function (require, exports) {
 define("render/render", ["require", "exports", "hook/contextStorage", "render/postworks", "render/vdom"], function (require, exports, contextStorage_1, postworks_1, vdom_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var ReactContext = /** @class */ (function () {
-        function ReactContext() {
-        }
-        return ReactContext;
-    }());
     var rctx = null;
     var cs = null;
     exports.grctx = function () { return rctx; }; // 이름이 이상함
@@ -170,7 +175,6 @@ define("render/render", ["require", "exports", "hook/contextStorage", "render/po
         return computed;
     };
     var renderComponentReal = function (_rctx, fn, postworks) {
-        console.log('RenderReal', _rctx);
         cs = _rctx.cs;
         var _cs = cs;
         cs.reset();

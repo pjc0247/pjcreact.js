@@ -58,14 +58,34 @@ export default class VDom {
   }
 
   private applyProps(el: HTMLElement) {
-    
     if (!this.props) return;
     Object.keys(this.props).forEach((key) => {
       // @ts-ignore
       el[key] = this.props[key];
     });
 
-    // special keys
+    this.applyEvents(el);
+    this.applyStyles(el);
+  }
+  private applyEvents(el: HTMLElement) {
+    // input events
     el.onchange = this.props.onChange;
+    el.onfocus = this.props.onFocus;
+    el.onblur = this.props.onBlur;
+
+    // mouse events
+    el.onmousedown = this.props.onMouseDown;
+    el.onmouseup = this.props.onMouseUp;
+    el.onmouseenter = this.props.onMouseEnter;
+    el.onmouseleave = this.props.onMouseLeave;
+    el.onmousemove = this.props.onMouseMove;
+    el.onmouseout = this.props.onMouseOut;
+  }
+  private applyStyles(el: HTMLElement) {
+    if (!this.props.styles) return;
+
+    for (const key in this.props.styles) {
+      el.style[key] = this.props.styles[key];
+    }
   }
 }
