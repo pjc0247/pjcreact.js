@@ -34,6 +34,7 @@ const Root = (props) => {
   );
 };
 registerType(Root);
+
 const appRoot = document.getElementById('root');
 const domRoot = render(rsx(`<Root v="4" Q="5" />`));
 appRoot.appendChild(domRoot);
